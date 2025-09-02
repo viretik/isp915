@@ -243,7 +243,7 @@
     setInterval(renderSchedule,60000);
 
     /* ====== Галерея + Zoom + Листание ====== */
-    const images = ["photo.jpg", "photo5.jpg", "photo6.jpg"]; // добавь сюда свои фото
+    const images = ["photo.jpg"]; // добавь сюда свои фото
     let currentIndex = 0, scale = 1;
 
     const photo = document.getElementById("photo");
@@ -280,15 +280,25 @@
       }
     });
 
-    // zoom колесиком
-    lightbox.addEventListener("wheel",e=>{
-      if(lightbox.style.display==="flex"){
+    // ✅ Новый zoom в точку курсора
+    lightbox.addEventListener("wheel", e => {
+      if (lightbox.style.display === "flex") {
         e.preventDefault();
+
+        const rect = lightboxImg.getBoundingClientRect();
+        const offsetX = e.clientX - rect.left;
+        const offsetY = e.clientY - rect.top;
+
+        const originX = (offsetX / rect.width) * 100;
+        const originY = (offsetY / rect.height) * 100;
+
+        lightboxImg.style.transformOrigin = `${originX}% ${originY}%`;
+
         scale += e.deltaY * -0.001;
         scale = Math.min(Math.max(1, scale), 5);
-        lightboxImg.style.transform=`scale(${scale})`;
+        lightboxImg.style.transform = `scale(${scale})`;
       }
-    },{passive:false});
+    }, { passive: false });
 
     // свайпы на телефоне
     let startX=0;
@@ -301,3 +311,4 @@
   </script>
 </body>
 </html>
+
