@@ -179,7 +179,7 @@
       for (let i = 0; i < todaySchedule.length; i++) {
         const [start, end, subj] = todaySchedule[i];
         if (timeNow >= start && timeNow <= end && offset === 0) {
-          currentLesson = `${subj} (${start}–${end})`;
+          currentLesson = `${subj}`;
           const [endH,endM] = end.split(":").map(Number);
           const minutesLeft = (endH*60+endM) - ((now.getUTCHours()+4)*60 + now.getUTCMinutes());
           if(minutesLeft>0) timeLeft = ` — осталось ${minutesLeft} мин`;
@@ -190,7 +190,7 @@
           if(timeNow > end && timeNow < nextStart && offset === 0){
             const [nextH,nextM] = nextStart.split(":").map(Number);
             const minutesLeft = (nextH*60+nextM) - ((now.getUTCHours()+4)*60 + now.getUTCMinutes());
-            currentLesson = `Перемена (${end}–${nextStart})`;
+            currentLesson = `Перемена`;
             if(minutesLeft>0) timeLeft = ` — осталось ${minutesLeft} мин`;
             break;
           }
