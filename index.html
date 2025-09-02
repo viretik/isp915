@@ -30,6 +30,19 @@
       z-index: -1;
     }
 
+    /* Лого в углу */
+    .logo {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      object-fit: cover;
+      z-index: 10000;
+    }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -65,7 +78,7 @@
       margin-top: 10px;
     }
 
-    img {
+    img.main-photo {
       max-width: 90%;
       max-height: 70vh;
       border-radius: 16px;
@@ -116,6 +129,9 @@
 <body>
   <div class="background"></div>
 
+  <!-- Лого -->
+  <img src="photo4.png" alt="Лого" class="logo">
+
   <div class="container">
     <div class="controls">
       <button id="prev">⬅ Вчера</button>
@@ -124,10 +140,8 @@
     <div class="current" id="current">Загрузка...</div>
     <div class="schedule" id="schedule"></div>
     
-    <!-- Заголовок над фото -->
     <div class="photo-title">Полное расписание</div>
-    
-    <img id="photo" src="photo.jpg" alt="Фото">
+    <img id="photo" src="photo.jpg" alt="Фото" class="main-photo">
   </div>
 
   <!-- Lightbox -->
