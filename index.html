@@ -66,11 +66,18 @@
     button:hover { background: #1d4ed8; }
 
     .current, .schedule {
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
-    .fade-out { opacity: 0; }
-    .fade-in { opacity: 1; }
+    /* Для свайпа */
+    .slide-left {
+      opacity: 0;
+      transform: translateX(-50px);
+    }
+    .slide-right {
+      opacity: 0;
+      transform: translateX(50px);
+    }
 
     .photo-title {
       font-size: 1.5em;
@@ -168,7 +175,7 @@
       return new Date(now.getTime() + (now.getTimezoneOffset()*60000) + 4*3600*1000);
     }
 
-    function renderSchedule(animated = false) {
+    function renderSchedule(direction = null) {
       const now = getUTC4Date();
       const dayIndex = (now.getDay() + offset + 7) % 7;
       const dayName = days[dayIndex];
@@ -190,27 +197,22 @@
                                    : "Сегодня занятий нет 🎉";
       }
 
-      if (animated) {
-        currentEl.classList.add("fade-out");
-        scheduleEl.classList.add("fade-out");
+      if (direction) {
+        currentEl.classList.add(direction === "left" ? "slide-left" : "slide-right");
+        scheduleEl.classList.add(direction === "left" ? "slide-left" : "slide-right");
+
         setTimeout(() => {
           updateContent();
-          currentEl.classList.remove("fade-out");
-          scheduleEl.classList.remove("fade-out");
-          currentEl.classList.add("fade-in");
-          scheduleEl.classList.add("fade-in");
-          setTimeout(()=> {
-            currentEl.classList.remove("fade-in");
-            scheduleEl.classList.remove("fade-in");
-          }, 400);
+          currentEl.classList.remove("slide-left","slide-right");
+          scheduleEl.classList.remove("slide-left","slide-right");
         }, 400);
       } else {
         updateContent();
       }
     }
 
-    document.getElementById("prev").addEventListener("click",()=>{offset--;renderSchedule(true);});
-    document.getElementById("next").addEventListener("click",()=>{offset++;renderSchedule(true);});
+    document.getElementById("prev").addEventListener("click",()=>{offset--;renderSchedule("left");});
+    document.getElementById("next").addEventListener("click",()=>{offset++;renderSchedule("right");});
     renderSchedule(); setInterval(renderSchedule,60000);
 
     /* ====== Галерея + Zoom ====== */
