@@ -65,18 +65,27 @@
     }
     button:hover { background: #1d4ed8; }
 
-    .current, .schedule {
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
+    /* 🔥 Анимации свайпа */
+    .slide-out-left { animation: slideOutLeft 0.4s forwards; }
+    .slide-out-right { animation: slideOutRight 0.4s forwards; }
+    .slide-in-left { animation: slideInLeft 0.4s forwards; }
+    .slide-in-right { animation: slideInRight 0.4s forwards; }
 
-    /* Для свайпа */
-    .slide-left {
-      opacity: 0;
-      transform: translateX(-50px);
+    @keyframes slideOutLeft {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-50px); }
     }
-    .slide-right {
-      opacity: 0;
-      transform: translateX(50px);
+    @keyframes slideOutRight {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(50px); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-50px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideInRight {
+      from { opacity: 0; transform: translateX(50px); }
+      to   { opacity: 1; transform: translateX(0); }
     }
 
     .photo-title {
@@ -198,22 +207,40 @@
       }
 
       if (direction) {
-        currentEl.classList.add(direction === "left" ? "slide-left" : "slide-right");
-        scheduleEl.classList.add(direction === "left" ? "slide-left" : "slide-right");
+        const outClass = direction === "left" ? "slide-out-left" : "slide-out-right";
+        const inClass  = direction === "left" ? "slide-in-right" : "slide-in-left";
+
+        currentEl.classList.add(outClass);
+        scheduleEl.classList.add(outClass);
 
         setTimeout(() => {
           updateContent();
-          currentEl.classList.remove("slide-left","slide-right");
-          scheduleEl.classList.remove("slide-left","slide-right");
+          currentEl.classList.remove(outClass);
+          scheduleEl.classList.remove(outClass);
+          currentEl.classList.add(inClass);
+          scheduleEl.classList.add(inClass);
+
+          setTimeout(() => {
+            currentEl.classList.remove(inClass);
+            scheduleEl.classList.remove(inClass);
+          }, 400);
         }, 400);
       } else {
         updateContent();
       }
     }
 
-    document.getElementById("prev").addEventListener("click",()=>{offset--;renderSchedule("left");});
-    document.getElementById("next").addEventListener("click",()=>{offset++;renderSchedule("right");});
-    renderSchedule(); setInterval(renderSchedule,60000);
+    document.getElementById("prev").addEventListener("click",()=>{
+      offset--;
+      renderSchedule("right"); // вчера → вправо
+    });
+    document.getElementById("next").addEventListener("click",()=>{
+      offset++;
+      renderSchedule("left"); // завтра → влево
+    });
+
+    renderSchedule();
+    setInterval(renderSchedule,60000);
 
     /* ====== Галерея + Zoom ====== */
     const images = ["photo.jpg","photo2.jpg","photo3.png"];
