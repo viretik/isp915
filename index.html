@@ -9,17 +9,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <style>
-    /* 🔹 Белый текст с тонкой черной обводкой */
-    body, body * {
-      color: #fff; /* белый цвет текста */
-      -webkit-text-stroke: 0.5px black; /* Chrome, Safari */
-      text-stroke: 0.5px black;         /* Firefox */
-    }
-
     body {
       margin: 0;
       font-family: sans-serif;
       background: #0f172a;
+      color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -113,13 +107,14 @@
       max-height: 90%;
       transition: transform 0.2s ease;
       cursor: grab;
-      touch-action: none;
+      touch-action: none; /* ✅ для pinch-zoom */
     }
     .lightbox .close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
     .lightbox .nav { position: absolute; top: 50%; font-size: 50px; color: white; cursor: pointer; user-select: none; padding: 20px; transform: translateY(-50%); }
     .lightbox .prev { left: 10px; }
     .lightbox .next { right: 10px; }
 
+    /* 📱 Мобильная версия */
     @media (max-width: 768px) {
       button { font-size: 18px; padding: 12px 18px; }
       #current { font-size: 20px; }
@@ -251,6 +246,7 @@
       lightboxImg.style.transform="scale(1)";
     }
 
+    // стрелки клавиатуры
     document.addEventListener("keydown",e=>{
       if(lightbox.style.display==="flex"){
         if(e.key==="ArrowLeft") changeImg(-1);
@@ -259,6 +255,7 @@
       }
     });
 
+    // ✅ Zoom колесиком
     lightbox.addEventListener("wheel", e => {
       if (lightbox.style.display === "flex") {
         e.preventDefault();
@@ -274,6 +271,7 @@
       }
     }, { passive: false });
 
+    // свайпы на телефоне
     let startX=0;
     lightbox.addEventListener("touchstart", e=>{ startX=e.touches[0].clientX; });
     lightbox.addEventListener("touchend", e=>{
@@ -282,6 +280,7 @@
       if(endX-startX>50) changeImg(-1);
     });
 
+    // ✅ Pinch zoom на мобильных
     let initialDistance = 0;
     let initialScale = 1;
     lightbox.addEventListener("touchstart", e=>{
