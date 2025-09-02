@@ -4,6 +4,10 @@
   <meta charset="utf-8">
   <title>ИСП-915</title>
   <link rel="icon" href="photo3.png" type="image/png">
+
+  <!-- ✅ фикс: отключаем зум страницы на мобилках -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
   <style>
     body {
       margin: 0;
@@ -139,6 +143,24 @@
     }
     .lightbox .prev { left: 10px; }
     .lightbox .next { right: 10px; }
+
+    /* 📱 Мобильная версия */
+    @media (max-width: 768px) {
+      button {
+        font-size: 18px;
+        padding: 12px 18px;
+      }
+      #current {
+        font-size: 20px;
+      }
+      #schedule {
+        font-size: 18px;
+        line-height: 1.6;
+      }
+      .photo-title {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -280,7 +302,7 @@
       }
     });
 
-    // ✅ Новый zoom в точку курсора
+    // ✅ Zoom в точку курсора
     lightbox.addEventListener("wheel", e => {
       if (lightbox.style.display === "flex") {
         e.preventDefault();
@@ -311,4 +333,3 @@
   </script>
 </body>
 </html>
-
