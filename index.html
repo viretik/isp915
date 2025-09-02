@@ -4,6 +4,16 @@
   <meta charset="utf-8">
   <title>ИСП-915</title>
   <link rel="icon" href="photo3.png" type="image/png">
+  <link rel="stylesheet" href="/photoswipe/dist/photoswipe.css">
+  <script type="module">
+    import PhotoSwipeLightbox from '/photoswipe/dist/photoswipe-lightbox.esm.js';
+    const lightboxeasy = new PhotoSwipeLightbox({
+      gallery: '#my-gallery',
+      children: 'a',
+      pswpModule: () => import('/photoswipe/dist/photoswipe.esm.js')
+    });
+    lightboxeasy.init();
+  </script>
 
   <!-- 🚫 Отключаем зум страницы на мобильных -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -134,7 +144,14 @@
     <div class="schedule" id="schedule"></div>
     
     <div class="photo-title">Полное расписание</div>
-    <img id="photo" src="photo.jpg" alt="Фото" class="main-photo">
+    <div class="pswp-gallery pswp-gallery--single-column" id="my-gallery">
+      <a href="/photo.jpg"
+        data-pswp-width="1280" 
+        data-pswp-height="232" 
+        target="_blank">
+        <img id="photo" src="/photo.jpg" alt="Фото" class="main-photo">
+      </a>
+    </div>
   </div>
 
   <div id="lightbox" class="lightbox">
@@ -211,100 +228,6 @@
     document.getElementById("next").addEventListener("click",()=>{ offset++; renderSchedule("left"); });
     renderSchedule();
     setInterval(renderSchedule,60000);
-
-    /* ====== Галерея + Zoom + Pan ====== */
-    const images = ["photo.jpg"];
-    let currentIndex = 0, scale = 1, originX = 50, originY = 50, translateX = 0, translateY = 0;
-    let startPan = null, initialDistance = 0, initialScale = 1;
-
-    const photo = document.getElementById("photo");
-    const lightbox = document.getElementById("lightbox");
-    const lightboxImg = document.getElementById("lightbox-img");
-
-    photo.addEventListener("click",()=>{ currentIndex=0; openLightbox(); });
-
-    function openLightbox(){
-      lightbox.style.display="flex";
-      lightboxImg.src = images[currentIndex];
-      updateTransform();
-    }
-    function closeLightbox(){ lightbox.style.display="none"; }
-
-    document.querySelector(".lightbox .close").addEventListener("click",closeLightbox);
-    document.querySelector(".lightbox .prev").addEventListener("click",()=>{ changeImg(-1); });
-    document.querySelector(".lightbox .next").addEventListener("click",()=>{ changeImg(1); });
-
-    function changeImg(dir){
-      currentIndex=(currentIndex+dir+images.length)%images.length;
-      lightboxImg.src=images[currentIndex];
-      updateTransform();
-    }
-
-    function updateTransform(){
-      lightboxImg.style.transformOrigin = `${originX}% ${originY}%`;
-      lightboxImg.style.transform = `scale(${scale}) translate(${translateX}px, ${translateY}px)`;
-    }
-
-    // Zoom колесиком
-    lightbox.addEventListener("wheel", e=>{
-      if(lightbox.style.display==="flex"){
-        e.preventDefault();
-        const rect = lightboxImg.getBoundingClientRect();
-        const offsetX = e.clientX - rect.left;
-        const offsetY = e.clientY - rect.top;
-        originX = (offsetX / rect.width)*100;
-        originY = (offsetY / rect.height)*100;
-        scale += e.deltaY*-0.001;
-        scale=Math.min(Math.max(1,scale),5);
-        updateTransform();
-      }
-    }, {passive:false});
-
-    // Pan мышью
-    lightboxImg.addEventListener("mousedown", e=>{ startPan={x:e.clientX,y:e.clientY,tx:translateX,ty:translateY}; lightboxImg.style.cursor="grabbing"; });
-    document.addEventListener("mousemove", e=>{ if(startPan){ translateX=startPan.tx+(e.clientX-startPan.x); translateY=startPan.ty+(e.clientY-startPan.y); updateTransform(); }});
-    document.addEventListener("mouseup", e=>{ startPan=null; lightboxImg.style.cursor="grab"; });
-
-    // Свайпы на телефоне
-    let startX=0;
-    lightbox.addEventListener("touchstart", e=>{
-      if(e.touches.length===1) startPan={x:e.touches[0].clientX,y:e.touches[0].clientY,tx:translateX,ty:translateY};
-      else if(e.touches.length===2){
-        e.preventDefault();
-        const dx = e.touches[0].clientX-e.touches[1].clientX;
-        const dy = e.touches[0].clientY-e.touches[1].clientY;
-        initialDistance = Math.sqrt(dx*dx+dy*dy);
-        initialScale = scale;
-      }
-      startX=e.touches[0].clientX;
-    }, {passive:false});
-
-    lightbox.addEventListener("touchmove", e=>{
-      if(e.touches.length===1 && startPan){ translateX=startPan.tx+(e.touches[0].clientX-startPan.x); translateY=startPan.ty+(e.touches[0].clientY-startPan.y); updateTransform(); }
-      else if(e.touches.length===2){
-        e.preventDefault();
-        const dx = e.touches[0].clientX-e.touches[1].clientX;
-        const dy = e.touches[0].clientY-e.touches[1].clientY;
-        scale=Math.min(Math.max(1, initialScale*(Math.sqrt(dx*dx+dy*dy)/initialDistance)),5);
-        updateTransform();
-      }
-    }, {passive:false});
-
-    lightbox.addEventListener("touchend", e=>{
-      startPan=null;
-      let endX=e.changedTouches[0].clientX;
-      if(startX-endX>50) changeImg(1);
-      if(endX-startX>50) changeImg(-1);
-    });
-
-    // Стрелки клавиатуры
-    document.addEventListener("keydown", e=>{
-      if(lightbox.style.display==="flex"){
-        if(e.key==="ArrowLeft") changeImg(-1);
-        if(e.key==="ArrowRight") changeImg(1);
-        if(e.key==="Escape") closeLightbox();
-      }
-    });
   </script>
 </body>
 </html>
