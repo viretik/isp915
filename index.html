@@ -242,8 +242,8 @@
     renderSchedule();
     setInterval(renderSchedule,60000);
 
-    /* ====== Галерея + Zoom ====== */
-    const images = ["photo.jpg"];
+    /* ====== Галерея + Zoom + Листание ====== */
+    const images = ["photo.jpg", "photo5.jpg", "photo6.jpg"]; // добавь сюда свои фото
     let currentIndex = 0, scale = 1;
 
     const photo = document.getElementById("photo");
@@ -271,6 +271,7 @@
       lightboxImg.style.transform="scale(1)";
     }
 
+    // стрелки клавиатуры
     document.addEventListener("keydown",e=>{
       if(lightbox.style.display==="flex"){
         if(e.key==="ArrowLeft") changeImg(-1);
@@ -279,6 +280,7 @@
       }
     });
 
+    // zoom колесиком
     lightbox.addEventListener("wheel",e=>{
       if(lightbox.style.display==="flex"){
         e.preventDefault();
@@ -287,6 +289,15 @@
         lightboxImg.style.transform=`scale(${scale})`;
       }
     },{passive:false});
+
+    // свайпы на телефоне
+    let startX=0;
+    lightbox.addEventListener("touchstart",e=>{startX=e.touches[0].clientX;});
+    lightbox.addEventListener("touchend",e=>{
+      let endX=e.changedTouches[0].clientX;
+      if(startX-endX>50) changeImg(1);   // свайп влево
+      if(endX-startX>50) changeImg(-1);  // свайп вправо
+    });
   </script>
 </body>
 </html>
