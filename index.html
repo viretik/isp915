@@ -3,10 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>ИСП-915</title>
-
-  <!-- Фавиконка -->
   <link rel="icon" href="photo3.png" type="image/png">
-
   <style>
     body {
       margin: 0;
@@ -30,7 +27,6 @@
       z-index: -1;
     }
 
-    /* Лого в углу */
     .logo {
       position: fixed;
       top: 15px;
@@ -69,8 +65,12 @@
     }
     button:hover { background: #1d4ed8; }
 
-    .current { font-size: 1.3em; font-weight: bold; }
-    .schedule { line-height: 1.6em; }
+    .current, .schedule {
+      transition: opacity 0.4s ease;
+    }
+
+    .fade-out { opacity: 0; }
+    .fade-in { opacity: 1; }
 
     .photo-title {
       font-size: 1.5em;
@@ -87,7 +87,6 @@
       transition: transform 0.3s ease;
     }
 
-    /* Lightbox */
     .lightbox {
       display: none;
       position: fixed;
@@ -128,8 +127,6 @@
 </head>
 <body>
   <div class="background"></div>
-
-  <!-- Лого -->
   <img src="photo4.png" alt="Лого" class="logo">
 
   <div class="container">
@@ -144,7 +141,6 @@
     <img id="photo" src="photo.jpg" alt="Фото" class="main-photo">
   </div>
 
-  <!-- Lightbox -->
   <div id="lightbox" class="lightbox">
     <span class="close">&times;</span>
     <span class="nav prev">&#10094;</span>
@@ -164,11 +160,15 @@
     const days = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
     let offset = 0;
 
+    const currentEl = document.getElementById("current");
+    const scheduleEl = document.getElementById("schedule");
+
     function getUTC4Date() {
       const now = new Date();
       return new Date(now.getTime() + (now.getTimezoneOffset()*60000) + 4*3600*1000);
     }
-    function renderSchedule() {
+
+    function renderSchedule(animated = false) {
       const now = getUTC4Date();
       const dayIndex = (now.getDay() + offset + 7) % 7;
       const dayName = days[dayIndex];
@@ -183,13 +183,34 @@
         }
       }
 
-      document.getElementById("current").textContent = `${dayName}: ${currentLesson}`;
-      document.getElementById("schedule").innerHTML =
-        todaySchedule.length > 0 ? todaySchedule.map(([s,e,subj]) => `${s}–${e} — ${subj}`).join("<br>")
-                                 : "Сегодня занятий нет 🎉";
+      function updateContent() {
+        currentEl.textContent = `${dayName}: ${currentLesson}`;
+        scheduleEl.innerHTML =
+          todaySchedule.length > 0 ? todaySchedule.map(([s,e,subj]) => `${s}–${e} — ${subj}`).join("<br>")
+                                   : "Сегодня занятий нет 🎉";
+      }
+
+      if (animated) {
+        currentEl.classList.add("fade-out");
+        scheduleEl.classList.add("fade-out");
+        setTimeout(() => {
+          updateContent();
+          currentEl.classList.remove("fade-out");
+          scheduleEl.classList.remove("fade-out");
+          currentEl.classList.add("fade-in");
+          scheduleEl.classList.add("fade-in");
+          setTimeout(()=> {
+            currentEl.classList.remove("fade-in");
+            scheduleEl.classList.remove("fade-in");
+          }, 400);
+        }, 400);
+      } else {
+        updateContent();
+      }
     }
-    document.getElementById("prev").addEventListener("click",()=>{offset--;renderSchedule();});
-    document.getElementById("next").addEventListener("click",()=>{offset++;renderSchedule();});
+
+    document.getElementById("prev").addEventListener("click",()=>{offset--;renderSchedule(true);});
+    document.getElementById("next").addEventListener("click",()=>{offset++;renderSchedule(true);});
     renderSchedule(); setInterval(renderSchedule,60000);
 
     /* ====== Галерея + Zoom ====== */
@@ -221,7 +242,6 @@
       lightboxImg.style.transform="scale(1)";
     }
 
-    // Клавиатура
     document.addEventListener("keydown",e=>{
       if(lightbox.style.display==="flex"){
         if(e.key==="ArrowLeft") changeImg(-1);
@@ -230,7 +250,6 @@
       }
     });
 
-    // Зум колесиком
     lightbox.addEventListener("wheel",e=>{
       if(lightbox.style.display==="flex"){
         e.preventDefault();
