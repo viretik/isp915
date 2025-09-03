@@ -53,6 +53,15 @@
       z-index: 10000;
     }
 
+    /* 🔲 Полупрозрачный квадрат */
+    .overlay-box {
+      background: rgba(0,0,0,0.7);
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      max-width: 95%;
+    }
+
     .container {
       display: flex;
       flex-direction: column;
@@ -137,22 +146,25 @@
   <div class="background"></div>
   <img src="photo4.png" alt="Лого" class="logo">
 
-  <div class="container">
-    <div class="controls">
-      <button id="prev">⬅ Вчера</button>
-      <button id="next">Завтра ➡</button>
-    </div>
-    <div class="current" id="current">Загрузка...</div>
-    <div class="schedule" id="schedule"></div>
-    
-    <div class="photo-title">Полное расписание</div>
-    <div class="pswp-gallery pswp-gallery--single-column" id="my-gallery">
-      <a href="/photo.jpg"
-        data-pswp-width="1280" 
-        data-pswp-height="232" 
-        target="_blank">
-        <img id="photo" src="/photo.jpg" alt="Фото" class="main-photo">
-      </a>
+  <!-- 🔲 Полупрозрачный блок -->
+  <div class="overlay-box">
+    <div class="container">
+      <div class="controls">
+        <button id="prev">⬅ Вчера</button>
+        <button id="next">Завтра ➡</button>
+      </div>
+      <div class="current" id="current">Загрузка...</div>
+      <div class="schedule" id="schedule"></div>
+      
+      <div class="photo-title">Полное расписание</div>
+      <div class="pswp-gallery pswp-gallery--single-column" id="my-gallery">
+        <a href="/photo.jpg"
+          data-pswp-width="1280" 
+          data-pswp-height="232" 
+          target="_blank">
+          <img id="photo" src="/photo.jpg" alt="Фото" class="main-photo">
+        </a>
+      </div>
     </div>
   </div>
 
