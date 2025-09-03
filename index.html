@@ -4,6 +4,16 @@
   <meta charset="utf-8">
   <title>ИСП-915</title>
   <link rel="icon" href="photo3.png" type="image/png">
+  <link rel="stylesheet" href="/photoswipe/dist/photoswipe.css">
+  <script type="module">
+    import PhotoSwipeLightbox from '/photoswipe/dist/photoswipe-lightbox.esm.js';
+    const lightboxeasy = new PhotoSwipeLightbox({
+      gallery: '#my-gallery',
+      children: 'a',
+      pswpModule: () => import('/photoswipe/dist/photoswipe.esm.js')
+    });
+    lightboxeasy.init();
+  </script>
 
   <!-- 🚫 Отключаем зум страницы на мобильных -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -136,7 +146,14 @@
     <div class="schedule" id="schedule"></div>
     
     <div class="photo-title">Полное расписание</div>
-    <img id="photo" src="photo.jpg" alt="Фото" class="main-photo">
+    <div class="pswp-gallery pswp-gallery--single-column" id="my-gallery">
+      <a href="/photo.jpg"
+        data-pswp-width="1280" 
+        data-pswp-height="232" 
+        target="_blank">
+        <img id="photo" src="/photo.jpg" alt="Фото" class="main-photo">
+      </a>
+    </div>
   </div>
 
   <div id="lightbox" class="lightbox">
@@ -232,6 +249,8 @@
 
     renderSchedule();
     setInterval(renderSchedule,60000);
+<<<<<<< HEAD
+=======
 
     /* ====== Галерея + Zoom + Листание ====== */
     const images = ["photo.jpg"];
@@ -321,6 +340,7 @@
         lightboxImg.style.transform = `scale(${scale})`;
       }
     }, { passive: false });
+>>>>>>> 516d46f74ea59aaf95a2ec5910ee244bbe1e3d3b
   </script>
 </body>
 </html>
