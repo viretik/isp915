@@ -67,7 +67,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.6);
       max-width: 95%;
       display: inline-block;
-      transition: all 0.4s ease; /* плавная адаптация */
+      transition: all 0.4s ease;
     }
 
     .container {
@@ -137,10 +137,13 @@
       margin-left: 12px;
       color: white;
     }
+
+    /* SVG стрелка */
     .arrow {
-      font-size: 22px;
       cursor: pointer;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
+      display: inline-block;
+      vertical-align: middle;
       margin-left: 8px;
     }
     .arrow.rotate { transform: rotate(180deg); }
@@ -200,7 +203,13 @@
       <div class="schedule" id="schedule"></div>
       
       <div class="photo-title">
-        Полное расписание <span id="toggle-arrow" class="arrow">⬇</span>
+        Полное расписание 
+        <svg id="toggle-arrow" class="arrow" xmlns="http://www.w3.org/2000/svg" 
+             width="22" height="22" viewBox="0 0 24 24" fill="none" 
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+             stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
       </div>
       <div id="week-schedule" class="week-schedule"></div>
     </div>
