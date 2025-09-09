@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>ИСП-915</title>
-  <!-- <link href="https://fonts.cdnfonts.com/css/gogono-cocoa-mochi" rel="stylesheet"> -->
   <link rel="icon" href="/favicon.ico">
   <link rel="stylesheet" href="/photoswipe/dist/photoswipe.css">
   <script type="module">
@@ -136,7 +135,7 @@
       max-height: 90%;
       transition: transform 0.2s ease;
       cursor: grab;
-      touch-action: none; /* ✅ для pinch-zoom */
+      touch-action: none;
     }
     .lightbox .close { position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; cursor: pointer; }
     .lightbox .nav { position: absolute; top: 50%; font-size: 50px; color: white; cursor: pointer; user-select: none; padding: 20px; transform: translateY(-50%); }
@@ -165,9 +164,8 @@
     }
 
     .telegram-info:hover {
-      background: rgba(0, 0, 0, 0.488); /* 1488 💋 */
+      background: rgba(0, 0, 0, 0.488);
       box-shadow: 0 0 30px rgba(0,0,0,0.6);
-      align-items: center;
     }
 
     .a-telegram {
@@ -175,6 +173,38 @@
       margin-left: 5px;
       text-decoration: none;
       color: rgb(98, 178, 254);
+    }
+
+    /* === Стили полного расписания === */
+    .week-schedule {
+      display: none;
+      margin-top: 15px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: left;
+      animation: slideDown 0.4s ease forwards;
+    }
+    .day {
+      font-weight: bold;
+      margin-top: 8px;
+      color: #3B82F6; /* 🔵 Цвет дня */
+    }
+    .lesson {
+      margin-left: 12px;
+      color: white;
+    }
+    .arrow {
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .arrow.rotate {
+      transform: rotate(180deg);
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -188,7 +218,6 @@
     </div>
   </div>
   
-
   <!-- 🔲 Полупрозрачный блок -->
   <div class="overlay-box">
     <div class="container">
@@ -199,7 +228,11 @@
       <div class="current" id="current">Загрузка...</div>
       <div class="schedule" id="schedule"></div>
       
-      <div class="photo-title">Полное расписание</div>
+      <div class="photo-title">
+        Полное расписание <span id="toggle-arrow" class="arrow">⬇</span>
+      </div>
+      <div id="week-schedule" class="week-schedule"></div>
+
       <div class="pswp-gallery pswp-gallery--single-column" id="my-gallery">
         <a href="/photo.jpg"
           data-pswp-width="1280" 
@@ -211,15 +244,8 @@
     </div>
   </div>
 
-  <div id="lightbox" class="lightbox">
-    <span class="close">&times;</span>
-    <span class="nav prev">&#10094;</span>
-    <img id="lightbox-img" src="">
-    <span class="nav next">&#10095;</span>
-  </div>
-
   <script>
-        /* ====== Расписание ====== */
+    /* ====== Расписание ====== */
     const scheduleData = {
       "Понедельник": [
         ["08:00","09:30","Разговоры о важном"],
@@ -249,6 +275,7 @@
         ["13:20","14:50","Физика каб.414"]
       ]
     };
+
     const days = ["Воскресенье","Понедельник","Вторник","Среда","Четверг","Пятница","Суббота"];
     let offset = 0;
 
@@ -326,6 +353,35 @@
 
     renderSchedule();
     setInterval(renderSchedule,60000);
+
+    /* === Рендер полного расписания === */
+    const weekScheduleEl = document.getElementById("week-schedule");
+    const toggleArrow = document.getElementById("toggle-arrow");
+
+    function renderFullSchedule() {
+      weekScheduleEl.innerHTML = "";
+      for (let day in scheduleData) {
+        const dayEl = document.createElement("div");
+        dayEl.className = "day";
+        dayEl.textContent = day;
+        weekScheduleEl.appendChild(dayEl);
+
+        scheduleData[day].forEach(([start,end,subj]) => {
+          const lessonEl = document.createElement("div");
+          lessonEl.className = "lesson";
+          lessonEl.textContent = `${start}–${end} — ${subj}`;
+          weekScheduleEl.appendChild(lessonEl);
+        });
+      }
+    }
+
+    renderFullSchedule();
+
+    toggleArrow.addEventListener("click", () => {
+      const isVisible = weekScheduleEl.style.display === "block";
+      weekScheduleEl.style.display = isVisible ? "none" : "block";
+      toggleArrow.classList.toggle("rotate");
+    });
   </script>
 </body>
 </html>
