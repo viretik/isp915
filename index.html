@@ -151,20 +151,19 @@
     }
     .arrow.rotate { transform: rotate(180deg); }
 
-/* 📱 Мобильная версия */
-@media (max-width: 768px) {
-  body {
-    overflow: hidden;   /* 🚫 убираем скролл */
-    touch-action: none; /* 🚫 блокируем свайпы */
-  }
+    /* 📱 Мобильная версия */
+    @media (max-width: 768px) {
+      .overlay-box {
+        transform: scale(1.30); /* 🔍 Увеличение всего блока */
+      }
 
-  /* Увеличиваем только сам блок с контентом */
-  .overlay-box {
-    transform: scale(1.20);
-    transform-origin: top center; /* Чтобы увеличивалось сверху вниз */
-  }
-}
-
+      button { font-size: 20px; padding: 14px 20px; }
+      #current { font-size: 22px; }
+      #schedule { font-size: 20px; line-height: 1.8; }
+      .photo-title { font-size: 22px; }
+      .day { font-size: 20px; }
+      .lesson { font-size: 18px; }
+    }
 
     .telegram-info {
       position: relative;
