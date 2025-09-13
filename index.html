@@ -50,8 +50,7 @@
       min-height: 100vh;
       position: relative;
       user-select: none;
-      overflow: hidden;   /* 🚫 убираем скролл */
-      touch-action: none; /* 🚫 блокируем свайпы */
+      overflow: auto;
     }
 
 
@@ -66,7 +65,7 @@
 
     .info {
       display: flex;
-      position: fixed;
+      position: absolute;
       top: 15px;
       left: 15px;
       z-index: 10000;
@@ -80,7 +79,6 @@
       object-fit: cover;
     }
 
-    /* 🔲 Полупрозрачный квадрат */
     .overlay-box {
       background: rgba(0,0,0,0.15);
       padding: 20px;
@@ -113,13 +111,12 @@
       border-radius: 8px;
       padding: 8px 12px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 1.1em;
       transition: 0.2s;
       font-family: FindSansPro, sans-serif;
     }
     button:hover { background: #1d4ed8; }
 
-    /* 🔥 Анимации свайпа */
     .slide-out-left { animation: slideOutLeft 0.4s forwards; }
     .slide-out-right { animation: slideOutRight 0.4s forwards; }
     .slide-in-left { animation: slideInLeft 0.4s forwards; }
@@ -130,9 +127,8 @@
     @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
 
-    .photo-title { font-size: 1.5em; font-weight: bold; margin-top: 10px; cursor: pointer; }
+    .photo-title { font-size: 1.4em; font-weight: bold; margin-top: 10px; cursor: pointer; }
 
-    /* 📅 Полное расписание */
     .week-schedule {
       max-height: 0;
       overflow: hidden;
@@ -153,6 +149,7 @@
     .day {
       font-weight: bold;
       margin-top: 8px;
+      margin-bottom: 3px;
       color: #3B82F6;
     }
     .lesson {
@@ -160,7 +157,6 @@
       color: white;
     }
 
-    /* SVG стрелка */
     .arrow {
       cursor: pointer;
       transition: transform 0.3s ease;
@@ -171,17 +167,18 @@
     .arrow.rotate { transform: rotate(180deg); }
 
     /* 📱 Мобильная версия */
-    @media (max-width: 768px) {
+    @media (max-width: 800px) {
       .overlay-box {
-        transform: scale(0.70); /* 🔍 Увеличение всего блока */
+        transform: scale(0.80);
+        padding: 10px;
       }
 
-      button { font-size: 20px; padding: 14px 20px; }
-      #current { font-size: 22px; }
-      #schedule { font-size: 20px; line-height: 1.8; }
-      .photo-title { font-size: 22px; }
-      .day { font-size: 20px; }
-      .lesson { font-size: 18px; }
+      button { font-size: 1.05em; padding: 13px 17px; }
+      #current { font-size: 1.1em; }
+      #schedule { font-size: 1.05em; line-height: 1.3; }
+      .photo-title { font-size: 1.1em; padding-top: 3px;}
+      .day { font-size: 0.9em; }
+      .lesson { font-size: 0.9em; }
     }
 
     .telegram-info {
