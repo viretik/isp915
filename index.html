@@ -3,28 +3,28 @@
     <head>
         <meta charset="utf-8">
         <title>ИСП-915</title>
-    
+
         <meta property="og:title" content="ИСП-915">
         <meta property="og:description" content="Расписание и информация для группы ИСП-915">
         <meta property="og:image" content="https://xn--915-2dd9al.xn--p1ai/photo25.jpg">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://xn--915-2dd9al.xn--p1ai/">
-    
+
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="ИСП-915">
         <meta name="twitter:description" content="Расписание и информация для группы ИСП-915">
         <meta name="twitter:image" content="https://xn--915-2dd9al.xn--p1ai/photo25.jpg">
-    
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <link rel="icon" href="/favicon.ico">
         <link rel="stylesheet" href="/photoswipe/dist/photoswipe.css">
-    
+
         <style>
             @font-face {
                 font-family: FindSansPro;
                 src: url("/findsanspro.ttf");
             }
-            
+
             body {
                 margin: 0;
                 font-family: FindSansPro, sans-serif;
@@ -38,7 +38,7 @@
                 user-select: none;
                 overflow: auto;
             }
-            
+
             .background {
                 position: fixed;
                 top: 0;
@@ -49,7 +49,7 @@
                 filter: blur(15px);
                 z-index: -1;
             }
-            
+
             .info {
                 display: flex;
                 position: absolute;
@@ -57,7 +57,7 @@
                 left: 15px;
                 z-index: 10000;
             }
-            
+
             .logo {
                 width: 60px;
                 height: 60px;
@@ -65,7 +65,7 @@
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
                 object-fit: cover;
             }
-            
+
             .overlay-box {
                 background: rgba(0, 0, 0, 0.15);
                 padding: 20px;
@@ -75,7 +75,7 @@
                 display: inline-block;
                 transition: all 0.4s ease;
             }
-            
+
             .container {
                 display: flex;
                 flex-direction: column;
@@ -84,13 +84,13 @@
                 gap: 15px;
                 letter-spacing: 2px;
             }
-            
+
             .controls {
                 display: flex;
                 justify-content: center;
                 gap: 10px;
             }
-            
+
             button {
                 background: #2563eb;
                 color: white;
@@ -102,27 +102,27 @@
                 transition: 0.2s;
                 font-family: FindSansPro, sans-serif;
             }
-            
+
             button:hover {
                 background: #1d4ed8;
             }
-            
+
             .slide-out-left {
                 animation: slideOutLeft 0.4s forwards;
             }
-            
+
             .slide-out-right {
                 animation: slideOutRight 0.4s forwards;
             }
-            
+
             .slide-in-left {
                 animation: slideInLeft 0.4s forwards;
             }
-            
+
             .slide-in-right {
                 animation: slideInRight 0.4s forwards;
             }
-            
+
             @keyframes slideOutLeft {
                 from {
                     opacity: 1;
@@ -133,7 +133,7 @@
                     transform: translateX(-50px);
                 }
             }
-            
+
             @keyframes slideOutRight {
                 from {
                     opacity: 1;
@@ -144,7 +144,7 @@
                     transform: translateX(50px);
                 }
             }
-            
+
             @keyframes slideInLeft {
                 from {
                     opacity: 0;
@@ -155,7 +155,7 @@
                     transform: translateX(0);
                 }
             }
-            
+
             @keyframes slideInRight {
                 from {
                     opacity: 0;
@@ -166,14 +166,14 @@
                     transform: translateX(0);
                 }
             }
-            
+
             .photo-title {
                 font-size: 1.4em;
                 font-weight: bold;
                 margin-top: 10px;
                 cursor: pointer;
             }
-            
+
             .week-schedule {
                 max-height: 0;
                 overflow: hidden;
@@ -185,26 +185,26 @@
                 padding: 0 12px;
                 text-align: left;
             }
-            
+
             .week-schedule.open {
                 max-height: 1000px;
                 opacity: 1;
                 padding: 12px;
                 margin-top: 15px;
             }
-            
+
             .day {
                 font-weight: bold;
                 margin-top: 8px;
                 margin-bottom: 3px;
                 color: #3B82F6;
             }
-            
+
             .lesson {
                 margin-left: 12px;
                 color: white;
             }
-            
+
             .arrow {
                 cursor: pointer;
                 transition: transform 0.3s ease;
@@ -212,11 +212,11 @@
                 vertical-align: middle;
                 margin-left: 8px;
             }
-            
+
             .arrow.rotate {
                 transform: rotate(180deg);
             }
-            
+
             @media (max-width: 800px) {
                 .overlay-box {
                     transform: scale(0.80);
@@ -244,7 +244,7 @@
                     font-size: 0.9em;
                 }
             }
-            
+
             .telegram-info {
                 position: relative;
                 left: 3px;
@@ -257,12 +257,12 @@
                 align-items: center;
                 transition: 0.3s;
             }
-            
+
             .telegram-info:hover {
                 background: rgba(0, 0, 0, 0.488);
                 box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
             }
-            
+
             .a-telegram {
                 margin-left: 5px;
                 text-decoration: none;
@@ -345,7 +345,7 @@
 
             function getUTC4Date() {
                 const now = new Date();
-                return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + 3 * 3600 * 1000);
+                return new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + 4 * 3600 * 1000);
             }
 
             function renderSchedule(direction = null) {
@@ -361,7 +361,7 @@
                     if (timeNow >= start && timeNow <= end && offset === 0) {
                         currentLesson = `${subj}`;
                         const [endH, endM] = end.split(":").map(Number);
-                        const minutesLeft = (endH * 60 + endM) - ((now.getUTCHours() + 3) * 60 + now.getUTCMinutes());
+                        const minutesLeft = (endH * 60 + endM) - ((now.getUTCHours() + 4) * 60 + now.getUTCMinutes());
                         if (minutesLeft > 0) timeLeft = ` — осталось ${minutesLeft} мин`;
                         break;
                     }
@@ -369,7 +369,7 @@
                         const nextStart = todaySchedule[i + 1][0];
                         if (timeNow > end && timeNow < nextStart && offset === 0) {
                             const [nextH, nextM] = nextStart.split(":").map(Number);
-                            const minutesLeft = (nextH * 60 + nextM) - ((now.getUTCHours() + 3) * 60 + now.getUTCMinutes());
+                            const minutesLeft = (nextH * 60 + nextM) - ((now.getUTCHours() + 4) * 60 + now.getUTCMinutes());
                             currentLesson = `Перемена`;
                             if (minutesLeft > 0) timeLeft = ` — осталось ${minutesLeft} мин`;
                             break;
